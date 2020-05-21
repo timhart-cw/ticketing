@@ -10,15 +10,18 @@ declare global {
     }
   }
 }
+
 let mongo: any;
 beforeAll(async () => {
-  process.env.JWT_KEY = 'dkfjhdfkh';
+  process.env.JWT_KEY = 'asdfasdf';
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
   mongo = new MongoMemoryServer();
   const mongoUri = await mongo.getUri();
 
   await mongoose.connect(mongoUri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
+    useUnifiedTopology: true
   });
 });
 
@@ -43,7 +46,7 @@ global.signin = async () => {
     .post('/api/users/signup')
     .send({
       email,
-      password,
+      password
     })
     .expect(201);
 
