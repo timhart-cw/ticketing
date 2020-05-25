@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.5.0",
     "jsonwebtoken": "^8.5.1",
+    "node-nats-streaming": "^0.3.2",
     "save-dev": "^0.0.1-security"
   },
   "devDependencies": {
