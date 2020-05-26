@@ -12,6 +12,8 @@ declare global {
   }
 }
 
+jest.mock('../nats-wrapper'); //this is the path to the file we are FAKING
+
 let mongo: any;
 beforeAll(async () => {
   process.env.JWT_KEY = 'dkfjhdfkh';
@@ -27,6 +29,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  jest.clearAllMocks(); //to ensure not using existing mocked objects
   const collections = await mongoose.connection.db.collections();
 
   for (let collection of collections) {
