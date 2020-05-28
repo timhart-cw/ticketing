@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { Order, OrderStatus } from './order';
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -41,7 +42,11 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
+  return new Ticket({
+    _id: attrs.id, //we had to rename this so that mongo didn't automatically asign a new _id when only provided with attrs.id
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 //this is how we actually add the method
 ticketSchema.methods.isReserved = async function () {
