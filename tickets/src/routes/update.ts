@@ -8,6 +8,7 @@ import {
   NotFoundError,
   requireAuth,
   NotAuthorisedError,
+  BadRequestError,
 } from '@cwticketing/common';
 
 const router = express.Router();
@@ -24,6 +25,10 @@ router.put(
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) {
       throw new NotFoundError();
+    }
+
+    if (ticket.orderId) {
+      throw new BadRequestError('Order in place');
     }
 
     if (ticket.userId != req.currentUser!.id) {
