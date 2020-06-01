@@ -16,6 +16,7 @@ expirationQueue.process(async (job) => {
   new ExpirationCompletePublisher(natsWrapper.client).publish({
     orderId: job.data.orderId,
   });
+  console.log('EXPIRATION FIRED', job.data.orderId);
 });
 
 export { expirationQueue };

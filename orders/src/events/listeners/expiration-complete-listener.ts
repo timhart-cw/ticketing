@@ -5,7 +5,7 @@ import {
   OrderStatus,
 } from '@cwticketing/common';
 import { Message } from 'node-nats-streaming';
-import { queueGroupName } from '../listeners/queue-group-name';
+import { queueGroupName } from './queue-group-name';
 import { Order } from '../../models/order';
 import { OrderCancelledPublisher } from '../publishers/order-cancelled-publisher';
 
@@ -18,13 +18,15 @@ export class ExpirationCompleteListener extends Listener<
   async onMessage(data: ExpirationCompleteEvent['data'], msg: Message) {
     //we have to chain the .populate on the below statement to make sure we get the corresponding ticket
     const order = await Order.findById(data.orderId).populate('ticket');
+    console.log('in expiration listener');
+    console.log(order);
     if (!order) {
       throw new Error('Order not found');
     }
 
-    if (order.status === OrderStatus.Complete) {
-      return msg.ack();
-    }
+    // if (order.status === OrderStatus.Complete) {
+    //   return msg.ack();
+    // }
     order.set({
       status: OrderStatus.Cancelled,
     });
