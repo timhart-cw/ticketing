@@ -14,7 +14,7 @@ export class ExpirationCompleteListener extends Listener<
 > {
   subject: Subjects.ExpirationComplete = Subjects.ExpirationComplete;
   queueGroupName = queueGroupName;
-
+ 
   async onMessage(data: ExpirationCompleteEvent['data'], msg: Message) {
     //we have to chain the .populate on the below statement to make sure we get the corresponding ticket
     const order = await Order.findById(data.orderId).populate('ticket');
